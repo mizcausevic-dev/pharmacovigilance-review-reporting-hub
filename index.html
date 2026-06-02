@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Pharmacovigilance Review and Reporting Hub — Kinetic Gain operator surface</title>
+<meta name="description" content="Operator surface for adverse-event queue management, signal detection clusters, regulator-reporting deadlines (FDA MedWatch 15-day / EU MDR vigilance / PMDA), and causality-assessment workflow." />
+<meta name="theme-color" content="#0A0B11" />
+<link rel="canonical" href="https://pv.kineticgain.com/" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Pharmacovigilance Review and Reporting Hub" />
+<meta property="og:description" content="Operator surface for adverse-event queue management, signal detection clusters, regulator-reporting deadlines (FDA MedWatch 15-day / EU MDR vigilance / PMDA), and causality-assessment workflow." />
+<meta property="og:url" content="https://pv.kineticgain.com/" />
+<style>
+  :root {
+    --onyx:#0A0B11;--ground:#0A0B11;--ink:#F5F2EB;--ink-dim:#9AA1AD;--ink-faint:#565C68;
+    --surface:rgba(255,255,255,.025);--surface-2:rgba(255,255,255,.045);
+    --line:rgba(255,255,255,.08);--line-soft:rgba(255,255,255,.05);
+    --emerald:#34D399;--cyan:#22D3EE;--violet:#A78BFA;--amber:#FBBF24;--coral:#FB7185;--danger:#FF7F9B;
+    --ok:#69E3B3;--warn:#FBBF24;--high:#FB7185;--crit:#FF6B95;
+    --signal:#6E879A;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+    --mono:ui-monospace,"SFMono-Regular",Menlo,"Cascadia Code",Consolas,monospace;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --radius:14px;--maxw:1240px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ground);color:var(--ink);font-family:var(--font);line-height:1.5;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;min-height:100vh}
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(900px 600px at 12% -5%,rgba(124,92,232,.14),transparent 60%),radial-gradient(800px 600px at 92% 8%,rgba(34,211,238,.09),transparent 55%),radial-gradient(1000px 700px at 70% 100%,rgba(71,91,107,.16),transparent 60%),linear-gradient(180deg,#0A0B11 0%,#0C0E16 55%,#0A0C13 100%)}
+  a{color:inherit}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+  /* Header */
+  header.site{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--ground) 72%,transparent);backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);border-bottom:1px solid var(--line-soft)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
+  .kg-logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);flex-shrink:0}
+  .kg-mark{height:22px;width:auto;display:block;flex:none}
+  .kg-mark .anchor{fill:var(--signal)}.kg-mark .bar{fill:var(--ink)}
+  .kg-word{font-weight:600;font-size:16px;letter-spacing:-.03em;color:var(--ink);white-space:nowrap}
+  .kg-word-dim{color:var(--ink-dim);font-weight:400}
+  .nav-links{display:flex;align-items:center;gap:22px;flex-wrap:nowrap}
+  .nav-links a{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none;transition:color .25s var(--ease);cursor:pointer;white-space:nowrap}
+  .nav-links a:hover,.nav-links a.active{color:var(--ink)}
+  .nav-links a.active{color:var(--emerald)}
+  .btn-start{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:9px 16px;border-radius:999px;border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:all .25s var(--ease);flex-shrink:0;background:transparent}
+  .btn-start:hover{color:var(--onyx);background:var(--emerald);border-color:var(--emerald);text-decoration:none}
+  @media (max-width:920px){.nav-links{gap:14px}.nav-links a{font-size:11px}.kg-word-dim{display:none}}
+  @media (max-width:720px){.nav-links{display:none}}
+
+  /* Hero */
+  .hero{padding:64px 0 36px;position:relative;z-index:2}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(120deg,var(--violet),var(--cyan));box-shadow:0 0 12px rgba(124,92,232,.7)}
+  h1{font-size:clamp(32px,4.6vw,54px);font-weight:600;line-height:1.05;letter-spacing:-.035em;margin:0 0 18px;max-width:24ch}
+  h1 .grad{background:linear-gradient(110deg,var(--violet),var(--cyan) 55%,var(--emerald));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{font-size:clamp(15px,1.4vw,17px);color:var(--ink-dim);line-height:1.6;max-width:64ch;margin-bottom:24px}
+  .hero-sub strong{color:var(--ink);font-weight:500}
+
+  /* Stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0 0}
+  .stat{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius);padding:18px 20px}
+  .stat-num{font-size:28px;font-weight:600;letter-spacing:-.025em;color:var(--ink);display:block;line-height:1}
+  .stat-num.ok{color:var(--ok)}.stat-num.warn{color:var(--warn)}.stat-num.crit{color:var(--high)}
+  .stat-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:8px;display:block}
+  .stat-sub{font-size:12px;color:var(--ink-dim);margin-top:4px}
+
+  /* Tabs */
+  .tabs-bar{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:42px 0 28px;overflow-x:auto;flex-wrap:nowrap}
+  .tab-btn{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);background:transparent;border:none;padding:14px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s var(--ease);white-space:nowrap}
+  .tab-btn:hover{color:var(--ink)}
+  .tab-btn.active{color:var(--emerald);border-bottom-color:var(--emerald)}
+  .tab-panel{display:none}.tab-panel.active{display:block}
+
+  /* Tables */
+  .tbl-wrap{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius);overflow:hidden}
+  table.data{width:100%;border-collapse:collapse;font-size:13px}
+  table.data th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);font-weight:500;background:rgba(0,0,0,.18)}
+  table.data td{padding:14px 16px;border-bottom:1px solid var(--line-soft);color:var(--ink-dim);vertical-align:top}
+  table.data tr:last-child td{border-bottom:none}
+  table.data td.name{color:var(--ink);font-weight:500}
+  table.data td.mono,table.data td .mono{font-family:var(--mono);font-size:12px;color:var(--ink-dim)}
+  table.data tr:hover td{background:rgba(255,255,255,.02)}
+
+  /* Status pills */
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+  .pill.ok{background:rgba(105,227,179,.12);color:var(--ok);border:1px solid rgba(105,227,179,.25)}
+  .pill.warn{background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.25)}
+  .pill.high{background:rgba(251,113,133,.13);color:var(--high);border:1px solid rgba(251,113,133,.28)}
+  .pill.crit{background:rgba(255,107,149,.18);color:var(--crit);border:1px solid rgba(255,107,149,.4)}
+  .pill.info{background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.22)}
+  .pill.neutral{background:rgba(255,255,255,.04);color:var(--ink-dim);border:1px solid var(--line)}
+
+  /* Cards */
+  .grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+  .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius);padding:20px;position:relative}
+  .card-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+  .card h3{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;letter-spacing:-.015em}
+  .card p{color:var(--ink-dim);font-size:13.5px;line-height:1.55}
+  .card .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+  /* Audit chain — vertical list */
+  .audit-chain{font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius);overflow:hidden}
+  .audit-row{display:grid;grid-template-columns:96px 1fr 220px 88px;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line-soft);align-items:center}
+  .audit-row:last-child{border-bottom:none}
+  .audit-row:nth-child(odd){background:rgba(0,0,0,.1)}
+  .audit-row .ts{color:var(--ink-faint);font-size:11px}
+  .audit-row .kind{color:var(--ink)}
+  .audit-row .res{color:var(--ink-dim);font-size:11px}
+  .audit-row .hash{color:var(--cyan);font-size:10px;text-align:right;font-weight:500}
+  .chain-banner{padding:14px 16px;background:rgba(105,227,179,.06);border-bottom:1px solid rgba(105,227,179,.15);color:var(--ok);font-size:12px;font-family:var(--mono)}
+  .chain-banner strong{font-weight:500}
+
+  /* Block-level */
+  section.block{padding:48px 0;position:relative;z-index:2}
+  .block-narrow{max-width:820px;margin:0 auto}
+  h2{font-size:28px;font-weight:600;letter-spacing:-.025em;margin-bottom:14px;color:var(--ink)}
+  h2 .grad{background:linear-gradient(110deg,var(--violet),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prose{color:var(--ink-dim);font-size:15px;line-height:1.65;margin-bottom:14px;max-width:74ch}
+  .prose strong{color:var(--ink);font-weight:500}
+  .prose code{font-family:var(--mono);font-size:13px;background:var(--surface);padding:2px 6px;border-radius:4px;color:var(--cyan)}
+  .prose a{color:var(--emerald);text-decoration:none;border-bottom:1px solid rgba(52,211,153,.3)}.prose a:hover{border-bottom-color:var(--emerald)}
+
+  /* Footer */
+  footer{padding:48px 0 36px;border-top:1px solid var(--line-soft);margin-top:36px;position:relative;z-index:2;color:var(--ink-faint);font-size:12px}
+  .foot-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  footer a{color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--line)}footer a:hover{color:var(--ink);border-bottom-color:var(--ink-dim)}
+
+  ::selection{background:var(--violet);color:var(--onyx)}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a href="/" class="kg-logo" aria-label="Kinetic Gain home">
+      <svg class="kg-mark" viewBox="-8 -8 188 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kinetic Gain mark">
+        <rect class="anchor" x="0" y="0" width="14" height="72"/>
+        <polygon class="bar" points="32,0 83,0 77,18 26,18"/>
+        <polygon class="bar" points="32,27 127,27 121,45 26,45"/>
+        <polygon class="bar" points="32,54 172,54 166,72 26,72"/>
+      </svg>
+      <span class="kg-word">Kinetic Gain <span class="kg-word-dim">/ Pharmacovigilance</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a data-tab="overview" class="active">Overview</a>
+      <a data-tab="anomalies">Signal detection</a>
+      <a data-tab="sync">Regulator routes</a>
+      <a data-tab="audit">Audit chain</a>
+    </nav>
+    <a class="btn-start" href="https://github.com/mizcausevic-dev/pharmacovigilance-review-reporting-hub" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
+  </div>
+</header>
+<main class="wrap">
+
+<section class="hero">
+  <span class="eyebrow"><span class="dot"></span>HealthTech · Pharma PV (Pharmacovigilance)</span>
+  <h1>Adverse event queue,<br /><span class="grad">signal detection</span>, multi-regulator.</h1>
+  <p class="hero-sub">18 synthetic AE cases across 4 marketed products · 6 active signal-detection patterns · 8 regulator routes mapped · ed25519-signed PV audit chain. The operator surface a pharma PV team uses between case-intake and submission.</p>
+  <div class="stats">
+    <div class="stat"><span class="stat-num ok">18</span><span class="stat-label">Open + recent AE events</span><span class="stat-sub">synthetic Helios Therapeutics</span></div><div class="stat"><span class="stat-num warn">11</span><span class="stat-label">Serious AE events</span><span class="stat-sub">MedWatch / EU MDR / PMDA queue</span></div><div class="stat"><span class="stat-num crit">6</span><span class="stat-label">Due within 48h</span><span class="stat-sub">regulatory deadline approaching</span></div><div class="stat"><span class="stat-num crit">2</span><span class="stat-label">7-day expedited</span><span class="stat-sub">death-related or unexpected</span></div>
+  </div>
+</section>
+
+<div class="tabs-bar" role="tablist">
+  <button class="tab-btn active" data-tab="overview" role="tab">Overview</button>
+  <button class="tab-btn" data-tab="anomalies" role="tab">Signal detection</button>
+  <button class="tab-btn" data-tab="sync" role="tab">Regulator routes</button>
+  <button class="tab-btn" data-tab="audit" role="tab">Audit chain</button>
+</div>
+<section class="tab-panel active" data-panel="overview"><h2>Adverse event queue — <span class="grad">Helios Therapeutics</span></h2><p class="prose">18 synthetic AE cases (open + recent) across 4 marketed products (3 drugs + 1 implantable device). <strong>2 expedited 7-day cases</strong> (death-related + unexpected anaphylaxis), <strong>4 due within 48h</strong>, plus 5 Drug X QT-prolongation cluster cases that triggered signal detection.</p><div class="tbl-wrap"><table class="data"><thead><tr><th>Case ID</th><th>Product</th><th>Term</th><th>Severity</th><th>Reporting route</th><th>Deadline</th><th>Causality</th><th>Status</th></tr></thead><tbody><tr><td class="mono">AE-2026-0892</td><td class="name">Drug X (Helios-DRX)</td><td>QT prolongation, severe</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day</td><td><span class="mono">Day 12 of 15</span></td><td>Causality pending</td><td><span class="pill crit">Due ≤48h</span></td></tr><tr><td class="mono">AE-2026-0891</td><td class="name">Drug Y (Helios-PRO)</td><td>Hepatic enzyme elevation</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day</td><td><span class="mono">Day 4 of 15</span></td><td>Probable causal (Naranjo 6)</td><td><span class="pill warn">In review</span></td></tr><tr><td class="mono">AE-2026-0890</td><td class="name">Drug X (Helios-DRX)</td><td>QT prolongation, moderate</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day</td><td><span class="mono">Day 7 of 15</span></td><td>Causality pending</td><td><span class="pill warn">In review</span></td></tr><tr><td class="mono">AE-2026-0889</td><td class="name">Device D-7 (Helios-IMP)</td><td>Device migration post-implant</td><td><span class="pill high">Serious</span></td><td>FDA MDR 30-day</td><td><span class="mono">Day 23 of 30</span></td><td>Probable causal</td><td><span class="pill crit">Due ≤48h</span></td></tr><tr><td class="mono">AE-2026-0888</td><td class="name">Drug Z (Helios-NEU)</td><td>Headache, mild</td><td><span class="pill neutral">Non-serious</span></td><td>Periodic (PSUR)</td><td><span class="mono">Q3 cycle</span></td><td>Non-causal (case 1004)</td><td><span class="pill ok">Complete</span></td></tr><tr><td class="mono">AE-2026-0887</td><td class="name">Drug X (Helios-DRX)</td><td>QT prolongation, severe</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day · EU MDR</td><td><span class="mono">Day 2 of 15</span></td><td>Causality pending</td><td><span class="pill warn">In review</span></td></tr><tr><td class="mono">AE-2026-0886</td><td class="name">Drug Y (Helios-PRO)</td><td>Anaphylaxis, severe</td><td><span class="pill high">Serious + Unexpected</span></td><td>MedWatch 7-day expedited</td><td><span class="mono">Day 1 of 7</span></td><td>Probable causal</td><td><span class="pill crit">7-day expedited</span></td></tr><tr><td class="mono">AE-2026-0885</td><td class="name">Drug Z (Helios-NEU)</td><td>Insomnia, mild</td><td><span class="pill neutral">Non-serious</span></td><td>Periodic (PSUR)</td><td><span class="mono">Q3 cycle</span></td><td>Possible causal</td><td><span class="pill ok">Complete</span></td></tr><tr><td class="mono">AE-2026-0884</td><td class="name">Drug X (Helios-DRX)</td><td>Syncope, moderate</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day</td><td><span class="mono">Day 9 of 15</span></td><td>Possible causal</td><td><span class="pill warn">In review</span></td></tr><tr><td class="mono">AE-2026-0883</td><td class="name">Device D-7 (Helios-IMP)</td><td>Device failure, no patient harm</td><td><span class="pill neutral">Non-serious</span></td><td>FDA MDR 90-day (malfunction)</td><td><span class="mono">Day 47 of 90</span></td><td>N/A device failure</td><td><span class="pill warn">In review</span></td></tr><tr><td class="mono">AE-2026-0882</td><td class="name">Drug Y (Helios-PRO)</td><td>Hepatic enzyme elevation</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day</td><td><span class="mono">Day 13 of 15</span></td><td>Probable causal (Naranjo 7)</td><td><span class="pill crit">Due ≤48h</span></td></tr><tr><td class="mono">AE-2026-0881</td><td class="name">Drug X (Helios-DRX)</td><td>QT prolongation, mild</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day · EU MDR</td><td><span class="mono">Day 5 of 15</span></td><td>Causality pending</td><td><span class="pill warn">In review</span></td></tr><tr><td class="mono">AE-2026-0880</td><td class="name">Drug Z (Helios-NEU)</td><td>Drowsiness, mild</td><td><span class="pill neutral">Non-serious</span></td><td>Periodic (PSUR)</td><td><span class="mono">Q3 cycle</span></td><td>Probable causal</td><td><span class="pill ok">Complete</span></td></tr><tr><td class="mono">AE-2026-0879</td><td class="name">Drug Y (Helios-PRO)</td><td>Rash, moderate</td><td><span class="pill neutral">Non-serious</span></td><td>Periodic (PSUR)</td><td><span class="mono">Q3 cycle</span></td><td>Possible causal</td><td><span class="pill ok">Complete</span></td></tr><tr><td class="mono">AE-2026-0878</td><td class="name">Drug X (Helios-DRX)</td><td>QT prolongation, moderate</td><td><span class="pill high">Serious</span></td><td>MedWatch 15-day</td><td><span class="mono">Day 14 of 15</span></td><td>Causality pending</td><td><span class="pill crit">Due ≤48h</span></td></tr><tr><td class="mono">AE-2026-0877</td><td class="name">Device D-7 (Helios-IMP)</td><td>Device migration, severe</td><td><span class="pill high">Serious + Death-related</span></td><td>MedWatch 7-day · EU MDR · PMDA</td><td><span class="mono">Day 3 of 7</span></td><td>Probable causal</td><td><span class="pill crit">7-day expedited</span></td></tr><tr><td class="mono">AE-2026-0876</td><td class="name">Drug Y (Helios-PRO)</td><td>Nausea, mild</td><td><span class="pill neutral">Non-serious</span></td><td>Periodic (PSUR)</td><td><span class="mono">Q3 cycle</span></td><td>Possible causal</td><td><span class="pill ok">Complete</span></td></tr><tr><td class="mono">AE-2026-0875</td><td class="name">Drug X (Helios-DRX)</td><td>Syncope, mild</td><td><span class="pill neutral">Non-serious</span></td><td>Periodic (PSUR)</td><td><span class="mono">Q3 cycle</span></td><td>Possible causal</td><td><span class="pill ok">Complete</span></td></tr></tbody></table></div></section><section class="tab-panel" data-panel="anomalies"><h2>Signal detection — <span class="grad">6 active patterns</span></h2><p class="prose">Signal detection looks for disproportionate-reporting patterns that exceed FDA / EMA / PMDA thresholds. Six patterns currently active: QT-prolongation cluster on Drug X, hepatic-enzyme cluster on Drug Y, two 7-day expedited cases (device-migration death + Drug Y anaphylaxis unexpected), multi-regulator coordination need on AE-0877, causality assessment overdue on AE-0892.</p><div class="grid-cards"><div class="card"><div class="card-eyebrow">Signal cluster — QT prolongation</div><h3>5 cases for Drug X in 30 days</h3><p><strong>Drug X (Helios-DRX)</strong> has 5 QT-prolongation cases (AE-0892, 0890, 0887, 0881, 0878) reported in the last 30 days vs the 12-month rolling baseline of 1.3/month. The cluster crosses the FDA <em>signal-of-disproportionate-reporting</em> threshold. Initiate Health Authority Periodic Safety Update Report (PSUR) amendment workflow + consider Dear Healthcare Provider letter.</p><div class="meta"><span class="pill crit">FDA signal threshold</span><span class="pill high">Drug X · 5 cases</span><span class="pill warn">PSUR amend</span></div></div><div class="card"><div class="card-eyebrow">Signal cluster — Hepatic enzyme elevation</div><h3>3 Drug Y cases, all probable causal</h3><p><strong>Drug Y (Helios-PRO)</strong> has 3 hepatic-enzyme-elevation cases (AE-0891, 0882, plus 1 from prior period), all with Naranjo 6+ probable causality. Reach Hy's Law threshold? Investigate co-medication patterns. EMA PRAC review may be triggered if pattern persists into Q4.</p><div class="meta"><span class="pill high">Hy's Law watch</span><span class="pill warn">EMA PRAC</span><span class="pill warn">Probable causal</span></div></div><div class="card"><div class="card-eyebrow">Death-related event — 7-day expedited</div><h3>AE-2026-0877 Device D-7 migration</h3><p><strong>AE-2026-0877</strong> is a serious + death-related device-migration event for <strong>Device D-7 (Helios-IMP)</strong>. Triggers 7-day expedited reporting to FDA + EU MDR Article 87 + PMDA Article 68-10. Currently Day 3 of 7. Submission packets must include device-history record, root cause, and patient-impact narrative.</p><div class="meta"><span class="pill crit">7-day expedited</span><span class="pill crit">Death-related</span><span class="pill high">3 regulators</span></div></div><div class="card"><div class="card-eyebrow">Anaphylaxis — 7-day expedited</div><h3>AE-2026-0886 Drug Y unexpected</h3><p><strong>AE-2026-0886</strong> anaphylactic reaction is UNEXPECTED for Drug Y (not in current label). Per ICH E2D, unexpected + serious = 7-day expedited reporting. Day 1 of 7 — patient narrative + product-label-review packet due in 6 days.</p><div class="meta"><span class="pill crit">ICH E2D · 7-day</span><span class="pill crit">Unexpected</span><span class="pill warn">Label update queue</span></div></div><div class="card"><div class="card-eyebrow">Multi-region case — 3 regulators</div><h3>AE-2026-0877 needs FDA + EU + PMDA</h3><p>Device-migration death case requires concurrent submission to FDA (MedWatch + 21 CFR 803), EU notified body (EU MDR Art 87), and PMDA (Article 68-10). Submissions are NOT identical — each regulator expects a specific data shape. Coordinate via cross-region PV team to avoid contradictory narratives across packets.</p><div class="meta"><span class="pill high">3 regulators</span><span class="pill warn">Multi-region</span><span class="pill info">Cross-region</span></div></div><div class="card"><div class="card-eyebrow">Causality assessment overdue</div><h3>AE-2026-0892 Day 12, causality pending</h3><p><strong>AE-2026-0892</strong> (Drug X QT prolongation, severe) is on Day 12 of 15. Causality assessment is still <code>pending</code> — needs to be finalized within 48h to allow time for medical-writer + QA-review + submission. Auto-escalate to Drug Safety Director.</p><div class="meta"><span class="pill crit">Deadline ≤48h</span><span class="pill warn">Causality pending</span></div></div></div></section><section class="tab-panel" data-panel="sync"><h2>Regulator reporting routes</h2><p class="prose">PV reporting is multi-regulator by default. Connected routes auto-submit via gateway APIs (FDA ESG, EVWEB, PMDA-J, EHR-OB). Manual routes (EU MDR Art 87 notified body) require email + signed PDF. Each route has its own data shape — submission via the wrong shape triggers rejection + resubmission delay.</p><div class="tbl-wrap"><table class="data"><thead><tr><th>Regulator route</th><th>Status</th><th>Coverage</th><th>Last submission</th><th>Note</th></tr></thead><tbody><tr><td class="name">FDA (MedWatch 3500A)</td><td><span class="pill ok">Connected</span></td><td>ESG account active · 12 submissions this quarter</td><td>Last 4h ago</td><td>All accepted</td></tr><tr><td class="name">FDA (MDR 21 CFR 803)</td><td><span class="pill ok">Connected</span></td><td>eMDR portal · 3 submissions this quarter</td><td>Last 8h ago</td><td>All accepted</td></tr><tr><td class="name">EU EMA (EudraVigilance)</td><td><span class="pill ok">Connected</span></td><td>EVWEB account · 8 submissions this quarter</td><td>Last 6h ago</td><td>All accepted</td></tr><tr><td class="name">EU Notified Body (EU MDR Art 87)</td><td><span class="pill warn">Active</span></td><td>Manual submission · 2 submissions this quarter</td><td>Last 3d ago</td><td>Email-based, manual</td></tr><tr><td class="name">PMDA (Article 68-10)</td><td><span class="pill ok">Connected</span></td><td>PMDA-J portal · 4 submissions this quarter</td><td>Last 12h ago</td><td>All accepted</td></tr><tr><td class="name">Health Canada (MedEffect)</td><td><span class="pill ok">Connected</span></td><td>EHR-OB API · 6 submissions this quarter</td><td>Last 1d ago</td><td>All accepted</td></tr><tr><td class="name">TGA (Australia)</td><td><span class="pill ok">Connected</span></td><td>ARTG submission · 2 this quarter</td><td>Last 2d ago</td><td>All accepted</td></tr><tr><td class="name">Periodic Safety Update Reports (PSUR)</td><td><span class="pill warn">In progress</span></td><td>Q3 2026 PSUR draft · 6 drugs</td><td>Internal review</td><td>Submit by 2026-08-15</td></tr></tbody></table></div></section><section class="tab-panel" data-panel="audit"><h2>PV audit chain</h2><p class="prose">Every PV action (case intake, causality assessment, signal detection, expedited submission, deadline alert, PSUR cycle, regulator acknowledgement) is captured as a hash-chained event. The chain is the immutable evidence trail an FDA inspector or EMA auditor will eventually walk through.</p><div class="audit-chain"><div class="chain-banner">⛓ <strong>Audit chain</strong> · Every PV decision (intake, causality, signal detection, submission, regulator acknowledgement) is hash-chained. ed25519-signed.</div><div class="audit-row"><span class="ts">2026-06-02T15:24:33Z</span><span class="kind">pv.event.case-intake</span><span class="res">AE-2026-0892 · Drug X QT prolongation severe</span><span class="hash">…ee04a2</span></div><div class="audit-row"><span class="ts">2026-06-02T15:17:08Z</span><span class="kind">pv.event.causality-assessed</span><span class="res">AE-2026-0891 · Naranjo 6 → Probable causal</span><span class="hash">…2c11df</span></div><div class="audit-row"><span class="ts">2026-06-02T15:02:44Z</span><span class="kind">pv.event.signal-detected</span><span class="res">Drug X QT cluster · 5 cases in 30 days</span><span class="hash">…9a4c01</span></div><div class="audit-row"><span class="ts">2026-06-02T14:48:21Z</span><span class="kind">pv.event.expedited-submitted</span><span class="res">AE-2026-0877 · FDA + EU MDR + PMDA · Day 3</span><span class="hash">…5b7811</span></div><div class="audit-row"><span class="ts">2026-06-02T14:31:09Z</span><span class="kind">pv.event.case-intake</span><span class="res">AE-2026-0891 · Drug Y hepatic enzyme elevation</span><span class="hash">…f24c88</span></div><div class="audit-row"><span class="ts">2026-06-02T14:11:52Z</span><span class="kind">pv.event.deadline-approaching</span><span class="res">AE-2026-0892 · 48h until MedWatch 15-day deadline</span><span class="hash">…7822c3</span></div><div class="audit-row"><span class="ts">2026-06-02T13:55:34Z</span><span class="kind">pv.event.psur-cycle-opened</span><span class="res">Q3 2026 PSUR · 6 marketed products</span><span class="hash">…a01b44</span></div><div class="audit-row"><span class="ts">2026-06-02T13:18:01Z</span><span class="kind">pv.event.regulator-acknowledged</span><span class="res">FDA ESG · AE-2026-0888 accepted</span><span class="hash">…100f9e</span></div></div></section>
+<section class="block block-narrow">
+  <h2>Why this surface exists</h2>
+  <p class="prose">Pharma PV teams are evaluated by inspectors on the <strong>full chain</strong> — case intake → coding → causality → seriousness → reportability → submission → regulator acknowledgement → PSUR cycle. The chain is the audit artifact. This surface compresses the typical week-by-week tracker spreadsheet into one operator board, with signal detection running across the same data.</p>
+  <p class="prose"><strong>Buyer:</strong> Pharma PV teams · Drug safety officers · Medical-device adverse-event committees · Sponsor QA · CRO PV staff.</p>
+  <p class="prose"><strong>Regulatory anchors:</strong> FDA 21 CFR 314.80 (MedWatch) · 21 CFR 803 (medical-device MDR) · EU Regulation 2017/745 (EU MDR) · ICH E2A-E2F · PMDA Article 68-10 · GVP Modules I-XVI.</p>
+  <p class="prose"><strong>KG Suite tie-back:</strong> Every operator decision on this surface emits an <a href="https://suite.kineticgain.com/#audit-stream">audit-stream</a> event (hash-chained, ed25519-signable). Vault-contract data classification follows the <a href="https://decisions.kineticgain.com/">Decision Card v0.3</a> pattern (<code>data_vault_targets</code> + <code>retention_envelope</code>). Incident escalations match the <a href="https://incidents.kineticgain.com/">AI Incident Card</a> profile shape. Evidence bundles align with the <a href="https://evidence.kineticgain.com/">AI Evidence Format</a> spec.</p>
+  <p class="prose"><strong>Static-only doctrine:</strong> No backend. No login. No telemetry. All synthetic data is baked into this HTML page as JavaScript constants. Nothing leaves the tab. Frame as <em>readiness / evidence / posture / controls / scaffolding</em> — never "compliant" or "certified" without an externally-attested audit.</p>
+</section>
+</main>
+<footer>
+  <div class="wrap foot-inner">
+    <div>
+      <strong style="color:var(--ink)">Kinetic Gain LLC</strong> · Boston, MA · <a href="https://kineticgain.com/">apex</a> · <a href="https://suite.kineticgain.com/">Suite</a> · <a href="https://github.com/mizcausevic-dev/pharmacovigilance-review-reporting-hub">source</a>
+    </div>
+    <div>
+      <a href="https://kineticgain.com/constellation/">/constellation/</a> · v0.1-shipped · AGPL-3.0
+    </div>
+  </div>
+</footer>
+<script>
+  // Tab switcher
+  const tabs = document.querySelectorAll('.tab-btn, .nav-links a[data-tab]');
+  const panels = document.querySelectorAll('.tab-panel');
+  tabs.forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    const id = t.dataset.tab;
+    tabs.forEach(x => x.classList.toggle('active', x.dataset.tab === id));
+    panels.forEach(p => p.classList.toggle('active', p.dataset.panel === id));
+  }));
+</script>
+</body></html>
